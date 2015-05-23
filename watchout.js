@@ -107,7 +107,6 @@ var moveEnemies = function(){
     .tween("custom", function(){
       return function(t){
         var enemy = d3.select(this);
-        enemy.attr("transform", function(enemy){"rotate(180)"}) 
         tweenWithCollisionDetection(enemy);
       }
     });
