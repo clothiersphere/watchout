@@ -10,6 +10,19 @@ var nEnemies = 25;
 var collisionE={};
 // var height = window.innerHeight - d3.select('.scoreboard').style('height');
 var gameboard = d3.select("body").append("svg:svg").attr("width", width).attr("height", height);
+
+ var defs = gameboard.append('svg:defs');
+  defs.append('svg:pattern')
+      .attr('id', 'tile-ww')
+      .attr('width', '20')
+      .attr('height', '20')
+      .append('svg:image')
+      .attr('xlink:href', 'ninja.png')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', 18)
+      .attr('height', 18);
+
 //var path = 'm-7.5,1.62413c0,-5.04095 4.08318,-9.12413 9.12414,-9.12413c5.04096,0 9.70345,5.53145 11.87586,9.12413c-2.02759,2.72372 -6.8349,9.12415 -11.87586,9.12415c-5.04096,0 -9.12414,-4.08318 -9.12414,-9.12415z';
 ////  SCORE //////
 
@@ -26,7 +39,6 @@ var updateScore = function(){
   //d3.select(".collisions span").text(collisionCount);
   //console.log(collisionCount + " inside");
 }
-
 
 //// Player class /////
 
@@ -84,16 +96,18 @@ var appendEnemies = function(enemy_array){
   enemies.enter().append('svg:circle').attr('class', 'enemy')
       .attr('cx', function(enemy) { return enemy.x })
       .attr('cy', function(enemy) { return enemy.y })
-      .attr('r', 8).attr('fill','#FF66FF');
+      .attr('r', 10).style('fill','url(#tile-ww)');
 }
 
 var moveEnemies = function(){
   return function(){
     var enemy_array = createEnemies(nEnemies);
     gameboard.selectAll('.enemy').data(enemy_array, function(d){ return d.id }).transition().duration(1500)
-    .attr("cx", function(enemy) { return enemy.x }).attr("cy", function(enemy) { return enemy.y }).tween("custom", function(){
+    .attr("cx", function(enemy) { return enemy.x }).attr("cy", function(enemy) { return enemy.y })
+    .tween("custom", function(){
       return function(t){
         var enemy = d3.select(this);
+        enemy.attr("transform", function(enemy){"rotate(180)"}) 
         tweenWithCollisionDetection(enemy);
       }
     });
