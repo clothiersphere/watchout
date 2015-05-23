@@ -84,7 +84,7 @@ var appendEnemies = function(enemy_array){
   enemies.enter().append('svg:circle').attr('class', 'enemy')
       .attr('cx', function(enemy) { return enemy.x })
       .attr('cy', function(enemy) { return enemy.y })
-      .attr('r', 14).attr('fill','#FF66FF');
+      .attr('r', 8).attr('fill','#FF66FF');
 }
 
 var moveEnemies = function(){
@@ -92,7 +92,7 @@ var moveEnemies = function(){
     var enemy_array = createEnemies(nEnemies);
     gameboard.selectAll('.enemy').data(enemy_array, function(d){ return d.id }).transition().duration(1500)
     .attr("cx", function(enemy) { return enemy.x }).attr("cy", function(enemy) { return enemy.y }).tween("custom", function(){
-      return function(t) {
+      return function(t){
         var enemy = d3.select(this);
         tweenWithCollisionDetection(enemy);
       }
